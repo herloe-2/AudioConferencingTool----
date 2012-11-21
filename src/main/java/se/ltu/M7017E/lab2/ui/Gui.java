@@ -6,11 +6,13 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -26,6 +28,8 @@ public class Gui extends JFrame {
 	private JMenuBar menu;
 	private JButton callBtn;
 	private JButton hangUpBtn;
+	private JList contactsList;
+	private JList contactsToCallList;
 
 	public Gui(final App app) {
 		this.setJMenuBar(createMenu());
@@ -54,7 +58,40 @@ public class Gui extends JFrame {
 				new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 
 		this.add(createButtonPanel());
+		this.add(createContactsPanel());
 
+	}
+
+	private JPanel createContactsPanel() {
+		JPanel panel = new JPanel();
+		JPanel contactsPanel = new JPanel();
+		JPanel contactsToCallPanel = new JPanel();
+		JButton addBtn = new JButton("Add");
+		JButton removeBtn = new JButton("Remove");
+		hangUpBtn = new JButton("Hang up");
+
+		this.contactsList = new JList();
+		JScrollPane contactScrollPane = new JScrollPane(this.contactsList);
+		contactsPanel.setSize(150, 300);
+		this.contactsToCallList = new JList();
+		JScrollPane contactToCallScrollPane = new JScrollPane(
+				this.contactsToCallList);
+
+		// layouts
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		contactsPanel.setLayout(new BoxLayout(contactsPanel, BoxLayout.Y_AXIS));
+		contactsToCallPanel.setLayout(new BoxLayout(contactsToCallPanel,
+				BoxLayout.Y_AXIS));
+
+		contactsPanel.add(addBtn);
+		contactsPanel.add(contactScrollPane);
+
+		contactsToCallPanel.add(removeBtn);
+		contactsToCallPanel.add(contactToCallScrollPane);
+
+		panel.add(contactsPanel);
+		panel.add(contactsToCallPanel);
+		return panel;
 	}
 
 	private JPanel createButtonPanel() {
